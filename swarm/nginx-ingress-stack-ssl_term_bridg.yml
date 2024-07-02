@@ -7,11 +7,9 @@ services:
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/ingress:/ingress
     networks:
       - ingress
-    secrets:
-      - my-service.company.tld.key
-      - my-service.company.tld.crt
     environment:
       PROXY_MODE: ssl-term-bridg
     deploy:
@@ -23,15 +21,6 @@ services:
         condition: on-failure
       placement:
         constraints: [node.role == manager]
-
-# sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certs/my-service.key -out ./certs/my-service.crt
-# docker secret create my-service.company.tld.key my-service.key
-# docker secret create my-service.company.tld.crt my-service.crt
-secrets:
-  my-service.company.tld.key:
-    external: true
-  my-service.company.tld.crt:
-    external: true
 
 # docker network create --driver overlay ingress-routing
 networks:

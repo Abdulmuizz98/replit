@@ -1,0 +1,23 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/orchestrator/src/index.ts",
+      "outFiles": ["${workspaceFolder}/orchestrator/dist/*.js"],
+      "env": {
+        "PORT": "3000",
+        "DEV_TLD": "replx-dev.oraio.tech",
+        "DEV_PORT": "3001",
+        "WS_TLD": "replx.oraio.tech",
+        "WS_PORT": "3000"
+      }
+    }
+  ]
+}

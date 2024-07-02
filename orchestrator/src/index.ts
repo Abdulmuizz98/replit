@@ -6,9 +6,9 @@ import Docker from "dockerode";
 import { serviceConfig as config } from "./service-config";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
-console.log("PORT: ", process.env.PORT);
+// console.log("PORT: ", process.env.PORT);
 const {
   DEV_TLD: devTld,
   WS_TLD: wsTld,
@@ -24,11 +24,16 @@ const dockerClient = new Docker({ socketPath: "/var/run/docker.sock" });
 app.use(cors());
 app.use(express.json());
 
+async function getServiceId(replId: string, userId: string) {
+  const name = `runner-${replId}-${userId}`;
+  const services = await dockerClient.listServices();
+  const service = services.find((service) => service.Spec!.Name === name);
+  return service?.ID;
+}
 /**
  *
  */
 app.post("/start", async (req, res) => {
-  console.log(req.body);
   const { userId, replId } = req.body;
 
   const devHost = `${replId}-${userId}.${devTld}`;
@@ -45,8 +50,13 @@ app.post("/start", async (req, res) => {
     console.log(`Service ${service.id} created successfully.`);
     res.status(200).json({ serviceId: service.id, status: "created" });
   } catch (err: any) {
-    console.error(`Error creating service: ${err.message}`);
-    res.status(500).json({ error: err.message });
+    if (err.message.includes("already exists")) {
+      const serviceId = await getServiceId(replId, userId);
+      res.status(400).json({ error: "Service already exists", serviceId });
+    } else {
+      console.error(`Error creating service: ${err.message}`);
+      res.status(500).json({ error: err.message });
+    }
   }
 });
 
