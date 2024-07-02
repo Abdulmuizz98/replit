@@ -1,10 +1,19 @@
 import { CreateServiceOptions } from "dockerode";
 
+const env = process.env;
+const envVar = [
+  `AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}`,
+  `AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}`,
+  `AWS_REGION=${env.AWS_REGION}`,
+  `AWS_S3_BUCKET_NAME=${env.AWS_S3_BUCKET_NAME}`,
+];
+
 export const serviceConfig: CreateServiceOptions = {
   Name: "",
   TaskTemplate: {
     ContainerSpec: {
-      Image: "oraio/runner-test:latest",
+      Image: "oraio/runner:latest",
+      Env: envVar,
     },
     Resources: {
       Limits: {
@@ -38,7 +47,7 @@ export const serviceConfig: CreateServiceOptions = {
       },
       {
         Protocol: "tcp",
-        TargetPort: 3001,
+        TargetPort: 8000,
       },
     ],
   },
