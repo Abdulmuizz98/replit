@@ -16,7 +16,7 @@ const {
   WS_PORT: wsPort,
 } = process.env;
 
-console.log(devTld);
+// console.log(devTld);
 const dockerClient = new Docker({ socketPath: "/var/run/docker.sock" });
 /**
  * TODO: Configure cors to allow requests from the frontend

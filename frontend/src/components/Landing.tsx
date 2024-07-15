@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 
-const INIT_URL = "http://localhost:3000";
+const INIT_URL = import.meta.env.VITE_APP_INIT_URL as string;
 
 /** Styled components */
 const Container = styled.div`
