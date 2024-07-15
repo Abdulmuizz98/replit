@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import { Output } from "./Output";
 import { TerminalComponent as Terminal } from "./Terminal";
 import axios from "axios";
-import { PiFileSqlThin } from "react-icons/pi";
+// import { PiFileSqlThin } from "react-icons/pi";
 
 function useSocket(replId: string) {
   const WS_TLD = "replx.oraio.tech";
@@ -71,12 +71,13 @@ export const CodingPage = () => {
     return <div>Invalid userId</div>;
   }
   userId = userId.slice(1).toLowerCase();
-  const WS_TLD = "replx.oraio.tech";
+  const WS_TLD = import.meta.env.VITE_APP_WS_TLD as string;
+  const ORCHESTRATOR_URL = import.meta.env.VITE_APP_ORCHESTRATOR_URL as string;
+
   const [podCreated, setPodCreated] = useState(false);
   const [podRunning, setPodRunning] = useState(false);
   const [workspaceSet, setWorkspaceSet] = useState(false);
   const [searchParams] = useSearchParams();
-  const ORCHESTRATOR_URL = "http://localhost:3002";
 
   const replId = searchParams.get("replId") ?? "";
   const RUNNER_URL = `https://${replId}-${userId}.${WS_TLD}`;
