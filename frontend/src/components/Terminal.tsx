@@ -31,7 +31,7 @@ export const TerminalComponent = ({ socket }: { socket: Socket }) => {
     term.loadAddon(fitAddon);
     term.open(terminalRef.current);
     fitAddon.fit();
-    function terminalHandler({ data }) {
+    function terminalHandler({ data }: { data: string }) {
       //   console.error(data);
       //   console.log(data);
       term.write(data);
