@@ -15,7 +15,7 @@ function useSocket(replId: string) {
   let { userId } = useParams();
 
   if (!userId || !userId.startsWith("@")) {
-    return <div>Invalid userId</div>;
+    return null;
   }
   userId = userId.slice(1);
 
@@ -211,7 +211,7 @@ export const CodingPagePostPodCreation = () => {
     }
   };
 
-  if (!loaded) {
+  if (!loaded || !socket) {
     return "Loading...";
   }
 
